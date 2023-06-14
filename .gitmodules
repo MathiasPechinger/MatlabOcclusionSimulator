@@ -1,0 +1,3 @@
+[submodule "submodules/matlab-tools"]
+	path = submodules/matlab-tools
+	url = https://github.com/cortex-lab/MATLAB-tools.git
