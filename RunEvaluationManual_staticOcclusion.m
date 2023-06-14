@@ -1,8 +1,7 @@
 %% RUN manual evaluation of the Static Occlusion Scenario:
 clear
-addpath("Scripts\")
-addpath("submodules\matlab-tools")
-
+addpath("Scripts")
+addpath("submodules/matlab-tools")
 
 %% Generate osm files
 

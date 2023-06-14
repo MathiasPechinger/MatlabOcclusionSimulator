@@ -1,0 +1,3 @@
+# gitignore to push the empty Results folder
+*
+!.gitignore

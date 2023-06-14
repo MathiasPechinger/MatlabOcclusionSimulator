@@ -1,7 +1,7 @@
 %% RUN manual evaluation of the dynamic occlusion Scenario:
-
-addpath("Scripts\")
-addpath("submodules\matlab-tools\")
+clear
+addpath("Scripts")
+addpath("submodules/matlab-tools")
 
 %% Generate osm files
 
