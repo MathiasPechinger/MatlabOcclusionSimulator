@@ -20,7 +20,7 @@ close all
 MapX = [50, 200];
 MapY = [50, 170];
 % Simulation parameters
-av_percentage = 0.1;
+av_percentage = 0.01;
 FoV = 30;
 visualize = true;
 visualizeDebug = false;
@@ -35,4 +35,6 @@ analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStat
 %% Run binmap evaluation
 
 BinMapFileName = "Results/binmap_AV30_FOV30.mat"
+% Create a full-screen figure 
+figure('units','normalized','outerposition',[0 0 1 1])
 analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario);

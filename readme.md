@@ -36,7 +36,7 @@ In the script you can adjust several parameters such as:
 
 ### Further Usage
 
-The same applies for the dynamic simulation. If you want to run several simulation at once, you can use the "RunEvaluationParallel*.mat." It is configured to run the several evaluations on serveral CPUs. 
+The same applies for the dynamic simulation. If you want to run several simulation at once, you can use the "RunEvaluationParallel*.mat." It is configured to run the several evaluations on serveral CPUs. To check the current status of the evaluation, type "job" in the command window and check your cpu load to see if it is running.
 
 
 ## Methodology

@@ -1,26 +1,31 @@
 % function analyseSingleBinmap(binMapFolder)
     clear
+    close all
 
+
+    % ======================================================
+    % ======================================================
+    % ======================================================
+    % MAX BIN VALUE IS NOT SET RIGHT NOW!!!
+    % ======================================================
+    % ======================================================
+    % ======================================================
+
+
+    osmDataName = "osmData/arcis_theresien_crossing.osm.mat";
+    bIsStaticOcculsionScenario = true;
     binMapFolder = "Results/";
-    S = dir(binMapFolder);
+    MapX = [-190, -100];
+    MapY = [-200, -20];
 
-    % sort by specific
-    S = S(~[S.isdir]);
-%     [~,idx] = sort([S.bytes]);
-    idx = [2 3 4 5 6 7 8 1]
-    S = S(idx)
-    fileList = S;
 
-    load("osmData/geotheplatz.osm.mat");
-    % Map boundaries
-    MapX = [50, 200];
-    MapY = [50, 170];
-    figure('units','normalized','outerposition',[0 0 1 1])
+    % Get a list of all files in the folder
+    fileList = dir(fullfile(binMapFolder, '*.mat'));
+
     maxBinValue = 0; 
+    binMapCnt = size(fileList,1);
 
-    binMapCnt = 8;
-
-%     load all binmaps
+    % load all binmaps
     for dataSize=1:binMapCnt
         binMapName = fileList(dataSize).name
         load(binMapFolder+binMapName);
@@ -33,73 +38,27 @@
     % plot data
     for dataSize=1:binMapCnt
 
-        subplot(2,4,dataSize);
-        
+        % subplot(2,4,dataSize);
 
+        % Create a full-screen figure 
+        figure('units','normalized','outerposition',[0 0 1 1])
+        
 
     
         binMapName = fileList(dataSize).name
-        title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%")
-        load(binMapFolder+binMapName);
+        title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
+        % load(binMapFolder+binMapName);
 
+        analyseSingleBinmap(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario)
 
-        axis equal
-        axis([MapX(1) MapX(2) MapY(1) MapY(2)])
-        hold on
-        
-        for building = 1:size(osmBuildings,2)
-            plot(osmBuildings{building}.x,osmBuildings{building}.y,'k')
-        end
-
-        % only used for arcis street analysis
-%         for parking = 1:size(osmParking,2)
-%             plot(osmParking{parking}.x,osmParking{parking}.y,'k')
-%         end
-             
-        
-        % get max value for color normalization
-%         maxBinValue = max(max(binmap));
-        cmap = colormap(parula);
-        
-        for xIter = 1:size(binmap,1)
-            for yIter = 1:size(binmap,2)
-                
-                boxPointX = zeros(1,4);
-                boxPointY = zeros(1,4);
-                % start at bottom left
-                boxPointX(1) = [MapX(1)+xIter];
-                boxPointX(2) = [MapX(1)+xIter];
-                boxPointX(3) = [MapX(1)+xIter+1];
-                boxPointX(4) = [MapX(1)+xIter+1];
-        %         boxPointX(5) = [MapX(1)+xIter];
-        
-                boxPointY(1) = [MapY(1)+yIter];
-                boxPointY(2) = [MapY(1)+yIter+1];
-                boxPointY(3) = [MapY(1)+yIter+1];
-                boxPointY(4) = [MapY(1)+yIter];
-        %         boxPointY(5) = [MapY(1)+yIter];
-        
-                polyBox = polyshape(boxPointX,boxPointY);    
-                
-                currValue = binmap(xIter,yIter);
-                if currValue == 0
-                    currValue = 1;
-                end        
-                colorCode = ceil((currValue/maxBinValue)*255);  
-        
-                plot(polyBox,"FaceColor",[cmap(colorCode,:)],"EdgeAlpha",0.0);   
-                
-        
-            end
-%             pause(0.0000001)
-        end
-        
-        axis([MapX(1) MapX(2) MapY(1) MapY(2)])
-%         axis equal
-        
-        
+        % pause(0.0000001)
+        % saveas(gcf,"Results/"+binMapName+".png")
+        % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')
+        % print("Results/"+binMapName+"_02.pdf", '-dpdf', '-r300');
+        print("Results/"+binMapName+".eps", '-depsc2');
+        close all
     end
 % end
 
 
-saveas(gcf,"results.png")
+

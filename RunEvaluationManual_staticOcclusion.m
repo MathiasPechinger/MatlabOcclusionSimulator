@@ -1,5 +1,6 @@
 %% RUN manual evaluation of the Static Occlusion Scenario:
 clear
+% profile on
 addpath("Scripts")
 addpath("submodules/matlab-tools")
 
@@ -20,10 +21,10 @@ MapX = [-190, -100];
 MapY = [-200, -20];
 
 % Simulation parameters
-av_percentage = 0.1;
+av_percentage = 0.01;
 FoV = 30;
 visualize = true;
-visualizeDebug = false;
+visualizeDebug = true;
 
 % Data Sources
 aimsunData = 'aimsunData/staticOcclusionScenario_ShortTest.xml';
@@ -34,5 +35,7 @@ analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStat
 
 %% Run binmap evaluation
 
-BinMapFileName = "Results/binmap_AV"+num2str(av_percentage*100)+"_FOV"+num2str(FoV)+".mat";
+BinMapFileName = "temp/binmap_AV"+num2str(av_percentage*100)+"_FOV"+num2str(FoV)+".mat";
+% Create a full-screen figure 
+figure('units','normalized','outerposition',[0 0 1 1])
 analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario);

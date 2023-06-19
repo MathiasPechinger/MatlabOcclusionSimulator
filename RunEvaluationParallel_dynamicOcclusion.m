@@ -2,8 +2,8 @@
 
 clear
 close all
-addpath("Scripts\")
-addpath("submodules\matlab-tools")
+addpath("Scripts")
+addpath("submodules/matlab-tools")
 
 %% Generate osm files
 
@@ -32,23 +32,31 @@ FoV = 30;
 visualize = false;
 visualizeDebug = false;
 % Data Sources
-aimsunData = 'aimsunData/staticOcclusionScenario_ShortTest.xml';
+% aimsunData = 'aimsunData/staticOcclusionScenario_ShortTest.xml';
+aimsunData = 'aimsunData/staticOcclusionScenario.xml';
 osmDataName = "osmData/arcis_theresien_crossing.osm.mat"
 
 % Start analysis
-av_percentage = 0.4;
-createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
-av_percentage = 0.5;
-createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
-av_percentage = 0.6;
-createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
-av_percentage = 0.7;
-createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
-av_percentage = 0.8;
+
+av_percentage = 1.0;
 createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
 av_percentage = 0.9;
 createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
-av_percentage = 1.0;
+av_percentage = 0.8;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.7;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.6;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.5;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.4;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.3;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.2;
+createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
+av_percentage = 0.1;
 createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
 
 

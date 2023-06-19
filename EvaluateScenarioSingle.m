@@ -10,13 +10,30 @@ initialFolder = 'Results';
 BinMapFileName = fullfile(filepath, filename);
 
 
-% Evaluation boundaries
-MapX = [-190, -100];
-MapY = [-200, -20];
+%% Evaluation boundaries 
+bIsStaticOcculsionScenario = true; % for parked vehicles/static scenario
 
-% osm Data Source
-osmDataName = "osmData/arcis_theresien_crossing.osm.mat";
-bIsStaticOcculsionScenario = true; % for parked vehicles
 
-% BinMapFileName = "Results/binmap_AV.mat";
+if bIsStaticOcculsionScenario
+    % arcis_theresienstraße/static sceanrio
+    MapX = [-190, -100];
+    MapY = [-200, -20];
+
+    % osm Data Source
+    osmDataName = "osmData/arcis_theresien_crossing.osm.mat";
+
+else
+    % goetheplatz/dynamic scenario
+    MapX = [50, 200];
+    MapY = [50, 170];
+
+
+    % osm Data Source
+    osmDataName = "osmData/geotheplatz.osm.mat";
+
+end
+
+
+% Create a full-screen figure 
+figure('units','normalized','outerposition',[0 0 1 1])
 analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario);

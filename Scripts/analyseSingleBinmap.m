@@ -3,8 +3,6 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh)
     load(binMapName);
     load(osmDataName);
     
-    % Create a full-screen figure and set axis equal
-    figure('units','normalized','outerposition',[0 0 1 1])
     axis equal
     axis([MapX(1) MapX(2) MapY(1) MapY(2)])
     hold on
@@ -68,9 +66,11 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh)
     end
     
     % Add labels to x and y axis
-    xlabel('x position [m]', 'FontName', 'Times New Roman')
-    ylabel('y position [m]', 'FontName', 'Times New Roman')
+    xlabel('x position [m]', 'FontName', 'Times','FontSize',24)
+    ylabel('y position [m]', 'FontName', 'Times','FontSize',24)
 
     % Set the current axes font to Times New Roman
-    set(gca, 'FontName', 'Times New Roman')
+    set(gca, 'FontName', 'Times')
+    ax = gca;
+    ax.FontSize = 22;  % Font Size of 15
 end

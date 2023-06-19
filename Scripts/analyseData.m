@@ -1,5 +1,13 @@
 function [] = analyseData(AVpercentage, FOVrange, usePlot,aimsunDataName,osmDataName,MapX,MapY,bPlotParkedVeh,bVisualizeDebug)
 
+
+% user either polyxpoly oder intersections algorithm for ray tracing.
+% -> intersections is a lot faster
+bUsePolyXPoly = false;
+
+% Intersections algorithm settings
+bRobustIntersections = false;
+
 %% parse data names and load
 aimsunData = xml2struct(aimsunDataName);
 load(osmDataName);
@@ -348,12 +356,18 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                         x_object = occludingVehicle{occIter}.x;
                         y_object = occludingVehicle{occIter}.y;
 
-                        [polyxpolyresultX, polyxpolyresultY, polyxpolyresultI]  = ...
-                            polyxpoly(x_ray, y_ray, x_object, y_object);
+                        if bUsePolyXPoly
+                            [polyxpolyresultX, polyxpolyresultY]  = ...
+                                polyxpoly(x_ray, y_ray, x_object, y_object);
+                        else
+                            [polyxpolyresultX, polyxpolyresultY]  = ...
+                                intersections(x_ray, y_ray, x_object, y_object,bRobustIntersections);
+                        end
+
                         if polyxpolyresultX
-                            for polyxresIter = 1:size(polyxpolyresultX,2)
-                                x_ray = [ego_x, polyxpolyresultX(polyxresIter)]; % this may be wrong
-                                y_ray = [ego_y, polyxpolyresultY(polyxresIter)];
+                            for polyxresIter = 1:size(polyxpolyresultX,1)
+                                % x_ray = [ego_x, polyxpolyresultX(polyxresIter)]; % this may be wrong
+                                % y_ray = [ego_y, polyxpolyresultY(polyxresIter)];
                                 dist = distance([ego_x,ego_y], ...
                                     [polyxpolyresultX(polyxresIter),polyxpolyresultY(polyxresIter)]);
                                 % if ray is smaller than current dist than replace it
@@ -373,9 +387,14 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                     for building = 1:size(osmBuildings,2)
             
     
-                        [polyxpolyresultX, polyxpolyresultY, polyxpolyresultI]  = ...
+                        if bUsePolyXPoly
+                            [polyxpolyresultX, polyxpolyresultY]  = ...
                                 polyxpoly(x_ray, y_ray, osmBuildings{building}.x, osmBuildings{building}.y);
-    
+                        else
+                            [polyxpolyresultX, polyxpolyresultY]  = ...
+                                intersections(x_ray, y_ray, osmBuildings{building}.x, osmBuildings{building}.y,bRobustIntersections);
+                        end
+
                         for polyPointCnt = 1:size(polyxpolyresultX,1)
                             
                             if polyxpolyresultX(polyPointCnt) 
@@ -404,10 +423,16 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                     if(bPlotParkedVeh)
                         for parking = 1:size(osmParking,2)
     
-    
-                            [polyxpolyresultX, polyxpolyresultY, polyxpolyresultI]  = ...
+                            if bUsePolyXPoly
+                                [polyxpolyresultX, polyxpolyresultY]  = ...
                                     polyxpoly(x_ray, y_ray, osmParking{parking}.x, osmParking{parking}.y);
+                            else
+
+                                [polyxpolyresultX, polyxpolyresultY]  = ...
+                                    intersections(x_ray, y_ray, osmParking{parking}.x, osmParking{parking}.y,bRobustIntersections);
     
+                            end
+
                             for polyPointCnt = 1:size(polyxpolyresultX,1)
     
                                 if polyxpolyresultX(polyPointCnt) 
@@ -539,7 +564,7 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
     % ----------------------------
 
 
-    offset = 50 %m increase area visible in simulation
+    offset = 50; %m increase area visible in simulation
     axis([MapX(1)-offset MapX(2)+offset MapY(1)-offset MapY(2)+offset])
 
     displayText = "AV Percentage: "+AVCnt/(CarCnt-AVCnt)*100;
