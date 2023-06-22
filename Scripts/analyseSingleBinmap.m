@@ -1,4 +1,4 @@
-function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh)
+function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, maxBinValue)
     % Load the binary map and OSM data
     load(binMapName);
     load(osmDataName);
@@ -20,8 +20,7 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh)
 
     hold on
 
-    % Get max value for color normalization
-    maxBinValue = max(max(binmap));
+
     cmap = colormap(parula);
     
     for xIter = 1:size(binmap,1)

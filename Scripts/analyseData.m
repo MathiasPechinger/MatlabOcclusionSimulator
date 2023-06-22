@@ -12,6 +12,9 @@ bRobustIntersections = false;
 aimsunData = xml2struct(aimsunDataName);
 load(osmDataName);
 
+% setup timeseries for av penetration rate tracking
+ts_AVPenetrationRate = timeseries();
+
 %% static data
 
 % get type id of cars
@@ -74,7 +77,8 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
             if currentFrame.CREATED.VEH.TYPE.Text == CarTypeID
                 
                 % add AV if applicable
-                if (AVCnt/CarCnt < AVpercentage)
+                currentManualDrivenCarCnt = CarCnt-AVCnt;
+                if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
                     vehicle{CarCnt}.isAV = true;
                     AVCnt = AVCnt+1;
                 else
@@ -106,7 +110,8 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                 if currentFrame.CREATED.VEH{carIter}.TYPE.Text == CarTypeID
 
                     % add AV if applicable
-                    if (AVCnt/CarCnt < AVpercentage)
+                    currentManualDrivenCarCnt = CarCnt-AVCnt;
+                    if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
                         vehicle{CarCnt}.isAV = true;
                         AVCnt = AVCnt+1;
                     else
@@ -577,11 +582,15 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
         "beginning of the simulation";
     text(MapX(2)+offset+10,MapY(2)+offset-25,displayText)
 
+    % track av penetration rate
+    currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    ts_AVPenetrationRate = addsample(ts_AVPenetrationRate, 'Data', currentAVpercentage, 'Time', 0.1*frame);
+
     pause(0.0001)
 end
 
 
 %% save binmap
 
-save("Results/binmap_AV"+num2str(AVpercentage*100)+"_FOV"+num2str(FOVrange)+".mat","binmap")
+save("Results/binmap_AV"+num2str(AVpercentage*100)+"_FOV"+num2str(FOVrange)+".mat","binmap","ts_AVPenetrationRate")
 

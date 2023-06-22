@@ -8,11 +8,11 @@ addpath("submodules/intersections")
 
 %% Generate osm files
 
-osmFileName = 'osmData/geotheplatz.osm';
-origin = [48.12864, 11.55673, 10];
-LTP_OffsetX = 0;
-LTP_OffsetY =0;
-bIsStaticOcculsionScenario = false; % for parked vehicles
+osmFileName = 'osmData/arcis_theresien_crossing.osm';
+origin = [48.15071807746543, 11.57141995642991, 10];
+LTP_OffsetX = -243.035323045;
+LTP_OffsetY = -200.647376497;
+bIsStaticOcculsionScenario = true;
 readOSM(osmFileName, origin, LTP_OffsetX, LTP_OffsetY,bIsStaticOcculsionScenario);
 
 %% setup jobs
@@ -26,19 +26,19 @@ job = createJob(c);
 
 % TASK 1:
 % Evaluation boundaries
-MapX = [50, 200];
-MapY = [50, 170];
+MapX = [-190, -100];
+MapY = [-200, -20];
 % Simulation parameters
 FoV = 30;
 visualize = false;
 visualizeDebug = false;
 % Data Sources
 % aimsunData = 'aimsunData/staticOcclusionScenario_ShortTest.xml';
-aimsunData = 'aimsunData/dynamicOcclusionScenario.xml';
-osmDataName = "osmData/geotheplatz.osm.mat";
+aimsunData = 'aimsunData/staticOcclusionScenario.xml';
+osmDataName = "osmData/arcis_theresien_crossing.osm.mat"
 
 % Start analysis
-% 
+
 av_percentage = 1.0;
 createTask(job,@analyseData,0,{av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug})
 av_percentage = 0.9;

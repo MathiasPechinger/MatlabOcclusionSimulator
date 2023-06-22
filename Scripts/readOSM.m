@@ -250,8 +250,8 @@ function [] = readOSM(osmFileName, origin, LTP_OffsetX, LTP_OffsetY, bStaticScen
             CarBox{carIter}.y = boxY;
 
             hold on
-            plot(Car{carIter}(1),Car{carIter}(2),'xr')
-            plot(CarBox{carIter}.x,CarBox{carIter}.y,'-r')
+            % plot(Car{carIter}(1),Car{carIter}(2),'xr')
+            % plot(CarBox{carIter}.x,CarBox{carIter}.y,'-r')
 
             osmParking{carIter}.x = CarBox{carIter}.x;
             osmParking{carIter}.y = CarBox{carIter}.y;
