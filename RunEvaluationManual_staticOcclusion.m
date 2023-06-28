@@ -38,4 +38,4 @@ analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStat
 BinMapFileName = "temp/binmap_AV"+num2str(av_percentage*100)+"_FOV"+num2str(FoV)+".mat";
 % Create a full-screen figure 
 figure('units','normalized','outerposition',[0 0 1 1])
-analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario);
+analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1);

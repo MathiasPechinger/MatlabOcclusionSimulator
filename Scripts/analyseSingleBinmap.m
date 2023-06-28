@@ -6,6 +6,12 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
     axis equal
     axis([MapX(1) MapX(2) MapY(1) MapY(2)])
     hold on
+
+    % for single scnearios, -1 given as max bin value to indicate that it
+    % must be evaluated here:
+    if maxBinValue == -1
+        maxBinValue = max(max(binmap));
+    end
     
     % Plot buildings from the OSM data
     for building = 1:size(osmBuildings,2)

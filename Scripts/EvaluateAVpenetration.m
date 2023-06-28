@@ -56,11 +56,6 @@ ax.FontSize = 15;  % Font Size of 15
 xlim([0, max(ts_AVPenetrationRate.Time)/60])
 ylim([25, 40])
 
-% Create a second y-axis for total number of vehicles
-% yyaxis right
-% totalVehicles = ts_AVPenetrationRate.Data * totalNumberOfVehicles;
-% plot(ts_CarCount.Time/60, ts_CarCount.Data, 'LineWidth', 1.5, 'LineStyle', '--')
-% ylabel('Total Number of Vehicles', 'FontName', 'Times','FontSize',15)
 
 % Adjust plot appearance
 ax2 = gca;

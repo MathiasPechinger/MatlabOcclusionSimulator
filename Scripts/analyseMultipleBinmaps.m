@@ -1,4 +1,5 @@
 % function analyseSingleBinmap(binMapFolder)
+% LEGACY FILE: NOT USED ANYMORE
 
     binMapFolder = "Results/";
     S = dir(binMapFolder);
