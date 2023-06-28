@@ -1,6 +1,7 @@
 
 
 bIsStaticOcculsionScenario = false;
+bVisualizeColorBar = false;
 binMapFolder = "Results/";
 
 if bIsStaticOcculsionScenario
@@ -39,7 +40,8 @@ for dataSize=1:binMapCnt
     % subplot(2,4,dataSize);
 
     % Create a full-screen figure 
-    figure('units','normalized','outerposition',[0 0 1 1])
+    figure('units','normalized','outerposition',[1 1 1 1]) %right screen
+    % figure('units','normalized','outerposition',[0 0 1 1]) % left screen
     
 
 
@@ -49,6 +51,26 @@ for dataSize=1:binMapCnt
 
     analyseSingleBinmap(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, maxBinValue)
 
+    if bVisualizeColorBar
+        cmap = colormap(parula);
+        cbh = colorbar ; %Create Colorbar
+        cbh.Ticks = linspace(0, 1, 20) ; %Create 8 ticks from zero to 1
+        cbh.TickLength = 0;
+        pos = cbh.Position;
+        pos(1) = .8;
+        pos(3) = .02;
+        cbh.Position = pos;
+        myCellArray = cell(1, 20)';
+        myCellArray{3} = 'minimum';
+        myCellArray{2} = 'number of';
+        myCellArray{1} = 'observations';
+        myCellArray{end} = 'maximum';
+        myCellArray{end-1} = 'number of';
+        myCellArray{end-2} = 'observations';
+    
+    
+        cbh.TickLabels = myCellArray;    %Replace the labels of these 8 ticks with the numbers 1 to 8
+    end
     % pause(0.0000001)
     % saveas(gcf,"Results/"+binMapName+".png")
     % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')

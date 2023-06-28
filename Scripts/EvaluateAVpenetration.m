@@ -1,7 +1,7 @@
 %% Usage:
 % define the penetration rate and choose the aimsun Data File you want to
 % check
-AVpentrationrate = 0.2;
+AVpentrationrate = 0.3;
 
 usePlot = false;
 
@@ -54,18 +54,18 @@ ax.FontSize = 15;  % Font Size of 15
 
 % Set x and y limits
 xlim([0, max(ts_AVPenetrationRate.Time)/60])
-ylim([0, 101])
+ylim([25, 40])
 
 % Create a second y-axis for total number of vehicles
-yyaxis right
+% yyaxis right
 % totalVehicles = ts_AVPenetrationRate.Data * totalNumberOfVehicles;
-plot(ts_CarCount.Time/60, ts_CarCount.Data, 'LineWidth', 1.5, 'LineStyle', '--')
-ylabel('Total Number of Vehicles', 'FontName', 'Times','FontSize',15)
+% plot(ts_CarCount.Time/60, ts_CarCount.Data, 'LineWidth', 1.5, 'LineStyle', '--')
+% ylabel('Total Number of Vehicles', 'FontName', 'Times','FontSize',15)
 
 % Adjust plot appearance
 ax2 = gca;
 ax2.FontSize = 15;
 ax2.YColor = 'k'; % Set color for the right y-axis labels
 
-
+print("Results/Figures/penetration_plot.eps", '-depsc2');
 

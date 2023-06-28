@@ -64,12 +64,14 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
         pause(0.0001) 
     end
     
+    font_size = 30;
+
     % Add labels to x and y axis
-    xlabel('x position [m]', 'FontName', 'Times','FontSize',24)
-    ylabel('y position [m]', 'FontName', 'Times','FontSize',24)
+    xlabel('x position [m]', 'FontName', 'Times','FontSize',font_size)
+    ylabel('y position [m]', 'FontName', 'Times','FontSize',font_size)
 
     % Set the current axes font to Times New Roman
     set(gca, 'FontName', 'Times')
     ax = gca;
-    ax.FontSize = 22;  % Font Size of 15
+    ax.FontSize = font_size;  % Font Size of 15
 end
