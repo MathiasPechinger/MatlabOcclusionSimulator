@@ -369,17 +369,28 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                                 intersections(x_ray, y_ray, x_object, y_object,bRobustIntersections);
                         end
 
-                        if polyxpolyresultX
+                        % it is curcial to collect the information about the second intersection, because
+                        % otherwise we would evaluate that the area that is taken by the vehicle is an acutal occluded spot
+                        if size(polyxpolyresultX,1) > 1
                             for polyxresIter = 1:size(polyxpolyresultX,1)
-                                % x_ray = [ego_x, polyxpolyresultX(polyxresIter)]; % this may be wrong
-                                % y_ray = [ego_y, polyxpolyresultY(polyxresIter)];
+                                dist_list = zeros(size(polyxpolyresultX,1),1);
+                                % get all distances
+                                for distCalcIter = 1:size(polyxpolyresultX,1)
+                                    dist_list(distCalcIter) = distance([ego_x,ego_y], ...
+                                        [polyxpolyresultX(distCalcIter),polyxpolyresultY(distCalcIter)]);
+                                end
+
+                                %get second smallest value
+                                [~, sortedIndices] = sort(dist_list);
+                                indexSecondSmallest = sortedIndices(2);
+
                                 dist = distance([ego_x,ego_y], ...
                                     [polyxpolyresultX(polyxresIter),polyxpolyresultY(polyxresIter)]);
                                 % if ray is smaller than current dist than replace it
                                 if dist < ego_dist_RayPoints(rayIter)
-                                    ego_dist_RayPoints(rayIter) = dist;
-                                    ego_x_RayPoints(rayIter) = polyxpolyresultX(polyxresIter);
-                                    ego_y_RayPoints(rayIter) = polyxpolyresultY(polyxresIter);
+                                    ego_dist_RayPoints(rayIter) = dist_list(indexSecondSmallest);
+                                    ego_x_RayPoints(rayIter) = polyxpolyresultX(indexSecondSmallest);
+                                    ego_y_RayPoints(rayIter) = polyxpolyresultY(indexSecondSmallest);
                                     x_ray = [ego_x, ego_x_RayPoints(rayIter)];
                                     y_ray = [ego_y, ego_y_RayPoints(rayIter)];
                                 end

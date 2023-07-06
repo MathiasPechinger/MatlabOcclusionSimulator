@@ -1,5 +1,5 @@
 %% RUN manual evaluation of the Static Occlusion Scenario:
-clear
+% clear
 % profile on
 addpath("Scripts")
 addpath("submodules/matlab-tools")

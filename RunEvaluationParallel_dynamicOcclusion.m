@@ -17,7 +17,7 @@ readOSM(osmFileName, origin, LTP_OffsetX, LTP_OffsetY,bIsStaticOcculsionScenario
 
 %% setup jobs
 c = parcluster; %or maybe c = findResource('scheduler','Configuration','local');
-job = createJob(c);
+job = createJob(c); 
 
 
 % f = parfeval(job,@analyseData,0,0.1,30,false);
