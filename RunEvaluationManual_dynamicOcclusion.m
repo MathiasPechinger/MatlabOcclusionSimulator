@@ -2,6 +2,7 @@
 clear
 addpath("Scripts")
 addpath("submodules/matlab-tools")
+addpath("submodules/intersections/")
 
 %% Generate osm files
 
@@ -20,7 +21,7 @@ close all
 MapX = [50, 200];
 MapY = [50, 170];
 % Simulation parameters
-av_percentage = 0.01;
+av_percentage = 0.1;
 FoV = 30;
 visualize = true;
 visualizeDebug = false;
