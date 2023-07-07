@@ -31,7 +31,7 @@ aimsunData = xml2struct(aimsunDataName);
 
 % Specify the figure size in pixels
 figureWidth = 1200;
-figureHeight = 600;
+figureHeight = 400;
 
 % Create the figure
 fig = figure('Position', [100, 100, figureWidth, figureHeight]);
@@ -54,12 +54,12 @@ ax.FontSize = 15;  % Font Size of 15
 
 % Set x and y limits
 xlim([0, max(ts_AVPenetrationRate.Time)/60])
-ylim([25, 40])
+ylim([28, 35])
 
 
 % Adjust plot appearance
 ax2 = gca;
-ax2.FontSize = 15;
+ax2.FontSize = 20;
 ax2.YColor = 'k'; % Set color for the right y-axis labels
 
 print("Results/Figures/penetration_plot.eps", '-depsc2');

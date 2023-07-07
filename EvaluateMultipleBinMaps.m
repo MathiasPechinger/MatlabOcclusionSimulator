@@ -4,6 +4,7 @@ addpath("submodules/matlab-tools")
 
 bIsStaticOcculsionScenario = false;
 bVisualizeColorBar = false;
+bUseMaxBinFrom100AV = false;
 binMapFolder = "Results/";
 
 if bIsStaticOcculsionScenario
@@ -34,6 +35,10 @@ for dataSize=1:binMapCnt
     if maxBinValue < max(max(binmap))
         maxBinValue = max(max(binmap))
     end
+end
+
+if bUseMaxBinFrom100AV == false
+    maxBinValue = -1;
 end
 
 % plot data
@@ -74,13 +79,13 @@ for dataSize=1:binMapCnt
         cbh.TickLabels = myCellArray;    %Replace the labels of these 8 ticks with the numbers 1 to 8
     end
     % pause(0.0000001)
-    saveas(gcf,"Results/"+binMapName+".png")
+    saveas(gcf,"Results/Figures/"+binMapName+".png")
     % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')
     % print("Results/"+binMapName+"_02.pdf", '-dpdf', '-r300');
-    print("Results/Figures/"+binMapName+".eps", '-depsc2');
+    % print("Results/Figures/"+binMapName+".eps", '-depsc2');
     close all
 end
-% end
+
 
 
 
