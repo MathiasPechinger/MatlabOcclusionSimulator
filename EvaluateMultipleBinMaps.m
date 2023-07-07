@@ -42,8 +42,8 @@ for dataSize=1:binMapCnt
     % subplot(2,4,dataSize);
 
     % Create a full-screen figure 
-    figure('units','normalized','outerposition',[1 1 1 1]) %right screen
-    % figure('units','normalized','outerposition',[0 0 1 1]) % left screen
+    %figure('units','normalized','outerposition',[1 1 1 1]) %right screen
+    figure('units','normalized','outerposition',[0 0 1 1]) % left screen if applicable
     
 
 

@@ -5,7 +5,7 @@ function [] = analyseData(AVpercentage, FOVrange, usePlot,aimsunDataName,osmData
 % -> intersections is a lot faster
 bUsePolyXPoly = false;
 
-% Intersections algorithm settings
+% Intersections algorithm settings (robust -> slower)
 bRobustIntersections = false;
 
 %% parse data names and load
@@ -318,17 +318,22 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                     
                     newOcclusion = false;
                     polyCnt = 1;
-                    for polyPointCnt = 1:size(PolyCheckResult,2)
-                        
-                        if PolyCheckResult(polyPointCnt) 
-                            % save relevant points
-                            newOcclusion = true;
-                            occludingVehicle{occVehicleCnt}.x(polyCnt) = other_x_points(polyPointCnt);
-                            occludingVehicle{occVehicleCnt}.y(polyCnt) = other_y_points(polyPointCnt);
-                            polyCnt = polyCnt +1;
-
-                            if (bVisualizeDebug)
-                                plot(other_x_points(polyPointCnt),other_y_points(polyPointCnt),'or')
+                    if sum(PolyCheckResult)>1 
+                        % it must be biger than one, otherwise it is just 
+                        % one point and therefore not viable for 
+                        % intersection estimation!
+                        for polyPointCnt = 1:size(PolyCheckResult,2)
+                            
+                            if PolyCheckResult(polyPointCnt) 
+                                % save relevant points
+                                newOcclusion = true;
+                                occludingVehicle{occVehicleCnt}.x(polyCnt) = other_x_points(polyPointCnt);
+                                occludingVehicle{occVehicleCnt}.y(polyCnt) = other_y_points(polyPointCnt);
+                                polyCnt = polyCnt +1;
+    
+                                if (bVisualizeDebug)
+                                    plot(other_x_points(polyPointCnt),other_y_points(polyPointCnt),'or')
+                                end
                             end
                         end
                     end

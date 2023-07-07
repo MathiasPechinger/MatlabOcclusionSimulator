@@ -1,8 +1,8 @@
 %% RUN manual evaluation of the Static Occlusion Scenario:
-% clear
-% profile on
+clear
 addpath("Scripts")
 addpath("submodules/matlab-tools")
+addpath("submodules/intersections/")
 
 %% Generate osm files
 
@@ -21,7 +21,7 @@ MapX = [-190, -100];
 MapY = [-200, -20];
 
 % Simulation parameters
-av_percentage = 0.01;
+av_percentage = 0.1;
 FoV = 30;
 visualize = true;
 visualizeDebug = true;
