@@ -2,9 +2,9 @@
 addpath("Scripts")
 addpath("submodules/matlab-tools")
 
-bIsStaticOcculsionScenario = false;
+bIsStaticOcculsionScenario = true;
 bVisualizeColorBar = false;
-bUseMaxBinFrom100AV = false;
+bUseMaxBinFrom100AV = true;
 binMapFolder = "Results/";
 
 if bIsStaticOcculsionScenario
@@ -47,13 +47,13 @@ for dataSize=1:binMapCnt
     % subplot(2,4,dataSize);
 
     % Create a full-screen figure 
-    %figure('units','normalized','outerposition',[1 1 1 1]) %right screen
-    figure('units','normalized','outerposition',[0 0 1 1]) % left screen if applicable
+    figure('units','normalized','outerposition',[1 1 1 1]) %right screen
+    % figure('units','normalized','outerposition',[0 0 1 1]) % left screen if applicable
     
 
 
     binMapName = fileList(dataSize).name
-    title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
+    % title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
     % load(binMapFolder+binMapName);
 
     analyseSingleBinmap(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, maxBinValue)

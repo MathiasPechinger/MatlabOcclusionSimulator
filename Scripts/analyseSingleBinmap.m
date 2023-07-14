@@ -70,7 +70,7 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
         pause(0.0001) 
     end
     
-    font_size = 45;
+    font_size = 20;
 
     % Add labels to x and y axis
     xlabel('x position [m]', 'FontName', 'Times','FontSize',font_size)
