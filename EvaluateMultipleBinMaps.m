@@ -56,7 +56,43 @@ for dataSize=1:binMapCnt
     title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
     % load(binMapFolder+binMapName);
 
-    analyseSingleBinmap(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, maxBinValue)
+
+    % -=Filter main bin=-
+    % only bins that have at least 50 percent of the maximum value are valid to
+    % be considered. We check the bin that is currenly in the center and being
+    % checked against its adjacent bins
+    validThreshold = 0;
+    
+    % -=Filter adjacent bin=-
+    % Here we check the bin that is adjacent to the one that is being checked
+    % the percentage measured to the maximum bin value to be counted as
+    % occlusion. We consider an area that must have a very high visibility to
+    % achieve a suitable difference. If the bin value is at least at this
+    % percenatage compared to the maxium bin value we consider it.
+    outlierThresholdPercentage = 0;
+    
+    % -= Bin difference=-
+    % the difference threshold as percentage value measured to the maximum bin
+    % value of the binning map. if the difference between two bins is at least
+    % this percentage it is considered as occlusion spot
+    % Greater value means less spots
+    occlusionThresholdPercentage = 8;
+    
+    areaOfInterest = [105, 135, 100, 130]; %x1 x2 y1 y2
+
+
+    % analyseSingleBinmap(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, maxBinValue)
+    analyseSingleBinmap( ...
+        binMapFolder+binMapName, ...
+        osmDataName, ...
+        MapX, ...
+        MapY, ...
+        bIsStaticOcculsionScenario, ...
+        maxBinValue, ...
+        occlusionThresholdPercentage, ...
+        outlierThresholdPercentage, ...
+        validThreshold, ...
+        areaOfInterest);
 
     if bVisualizeColorBar
         cmap = colormap(parula);
@@ -82,8 +118,8 @@ for dataSize=1:binMapCnt
     saveas(gcf,"Results/Figures/"+binMapName+".png")
     % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')
     % print("Results/"+binMapName+"_02.pdf", '-dpdf', '-r300');
-    % print("Results/Figures/"+binMapName+".eps", '-depsc2');
-    close all
+    print("Results/Figures/"+binMapName+".eps", '-depsc2');
+    % close all
 end
 
 
