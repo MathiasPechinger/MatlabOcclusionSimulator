@@ -62,8 +62,11 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                 % So for every newly created vehicle we check how many
                 % vehicles were created already and add a new one if the
                 % percentage falls below our threshold
-                currentManualDrivenCarCnt = CarCnt-AVCnt;
-                if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
+                
+                p = AVpercentage; % Probability of getting a 1
+                randomAssign = rand() <= p;                
+                    
+                if (randomAssign==1)
                     vehicle{CarCnt}.isAV = true;
                     AVCnt = AVCnt+1;
                 else
@@ -94,14 +97,16 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
             for carIter = 1:size(currentFrame.CREATED.VEH,2)
                 if currentFrame.CREATED.VEH{carIter}.TYPE.Text == CarTypeID
 
-                    % add AV if applicable
-                    if (AVCnt/CarCnt < AVpercentage)
+                    p = AVpercentage; % Probability of getting a 1
+                    randomAssign = rand() <= p;                
+                        
+                    if (randomAssign==1)
                         vehicle{CarCnt}.isAV = true;
                         AVCnt = AVCnt+1;
                     else
                         vehicle{CarCnt}.isAV = false;
                     end
-
+                
                     vehicle{CarCnt}.ID = currentFrame.CREATED.VEH{carIter}.Attributes.ID;
                     vehicle{CarCnt}.POS = currentFrame.CREATED.VEH{carIter}.POS.Attributes;
                     vehicle{CarCnt}.PATH.POS(1) = currentFrame.CREATED.VEH{carIter}.POS.Attributes;
@@ -217,7 +222,7 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
     % 
     % displayText = "AV Percentage: "+AVCnt/(CarCnt-AVCnt)*100;
     % text(MapX(2)+offset+10,MapY(2)+offset,displayText)
-    currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    currentAVpercentage = AVCnt/(CarCnt)*100;
 
     ts_CarCount = addsample(ts_CarCount, 'Data', CarCnt, 'Time', 0.1*frame);
     ts_AVPenetrationRate = addsample(ts_AVPenetrationRate, 'Data', currentAVpercentage, 'Time', 0.1*frame);

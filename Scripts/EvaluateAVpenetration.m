@@ -1,7 +1,7 @@
 %% Usage:
 % define the penetration rate and choose the aimsun Data File you want to
 % check
-AVpentrationrate = 0.3;
+AVpentrationrate = 0.5;
 
 usePlot = false;
 

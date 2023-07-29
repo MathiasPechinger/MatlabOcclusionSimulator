@@ -77,13 +77,16 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
             if currentFrame.CREATED.VEH.TYPE.Text == CarTypeID
                 
                 % add AV if applicable
-                currentManualDrivenCarCnt = CarCnt-AVCnt;
-                if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
+                p = AVpercentage; % Probability of getting a 1
+                randomAssign = rand() <= p;                
+                    
+                if (randomAssign==1)
                     vehicle{CarCnt}.isAV = true;
                     AVCnt = AVCnt+1;
                 else
                     vehicle{CarCnt}.isAV = false;
                 end
+
                 
                 vehicle{CarCnt}.ID = currentFrame.CREATED.VEH.Attributes.ID;
                 vehicle{CarCnt}.POS = currentFrame.CREATED.VEH.POS.Attributes;
@@ -110,13 +113,16 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                 if currentFrame.CREATED.VEH{carIter}.TYPE.Text == CarTypeID
 
                     % add AV if applicable
-                    currentManualDrivenCarCnt = CarCnt-AVCnt;
-                    if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
+                    p = AVpercentage; % Probability of getting a 1
+                    randomAssign = rand() <= p;                
+                        
+                    if (randomAssign==1)
                         vehicle{CarCnt}.isAV = true;
                         AVCnt = AVCnt+1;
                     else
                         vehicle{CarCnt}.isAV = false;
                     end
+                
 
                     vehicle{CarCnt}.ID = currentFrame.CREATED.VEH{carIter}.Attributes.ID;
                     vehicle{CarCnt}.POS = currentFrame.CREATED.VEH{carIter}.POS.Attributes;
@@ -599,7 +605,7 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
     text(MapX(2)+offset+10,MapY(2)+offset-25,displayText)
 
     % track av penetration rate
-    currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    currentAVpercentage = (AVCnt/(CarCnt))*100;
     ts_AVPenetrationRate = addsample(ts_AVPenetrationRate, 'Data', currentAVpercentage, 'Time', 0.1*frame);
 
     pause(0.0001)
