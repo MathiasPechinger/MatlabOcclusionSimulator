@@ -217,7 +217,8 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
     % 
     % displayText = "AV Percentage: "+AVCnt/(CarCnt-AVCnt)*100;
     % text(MapX(2)+offset+10,MapY(2)+offset,displayText)
-    currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    % currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    currentAVpercentage = (AVCnt/(CarCnt))*100;
 
     ts_CarCount = addsample(ts_CarCount, 'Data', CarCnt, 'Time', 0.1*frame);
     ts_AVPenetrationRate = addsample(ts_AVPenetrationRate, 'Data', currentAVpercentage, 'Time', 0.1*frame);

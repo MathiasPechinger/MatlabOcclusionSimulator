@@ -1,7 +1,12 @@
-function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, maxBinValue, occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest)
+function analyseSingleBinmapObservationRate(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, maxBinValue, occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest)
     % Load the binary map and OSM data
     load(binMapName);
     load(osmDataName);
+
+    %setup sim time
+    simTime = duration(0,30, 5, 100); % 30 minutes, 5 second, 100 milliseconds
+
+
 
     bEnableCheckDynOcclusionSpots = false;
     
@@ -37,6 +42,16 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
 
     %% 1. get the color of the bin
 
+
+    cmap2 = colormap(turbo);
+
+    % O-LOS
+    LOS_A = 5.1 % 5 obeservations per second
+    LOS_B = 4.1 % 5 obeservations per second
+    LOS_C = 3.1 % 5 obeservations per second
+    LOS_D = 1.8 % 5 obeservations per second
+
+
     for xIter = 1:x_size
         for yIter = 1:y_size
             polyBox = getPolyShape(MapX,MapY,xIter,yIter);
@@ -47,13 +62,24 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
                 colorCode = 0;
                 pg = plot(polyBox,"FaceColor",[1,1,1],"EdgeAlpha",0.0);  
             % if it IS NOT empty
-            else              
-                colorCode = ceil(((currValue/maxBinValue))*255);
-                % avoid invalid 0
-                if colorCode == 0
-                    colorCode = 1;
+
+            else    
+            
+                observationsPerSeconds = currValue/seconds(simTime);
+                
+                if observationsPerSeconds >= LOS_D && observationsPerSeconds < LOS_C
+                    colorCode = ceil(255*.8);
+                elseif observationsPerSeconds >= LOS_C && observationsPerSeconds < LOS_B 
+                    colorCode = ceil(255*.7);
+                elseif observationsPerSeconds >= LOS_B && observationsPerSeconds < LOS_A 
+                    colorCode = ceil(255*.6);     
+                elseif observationsPerSeconds >= LOS_A 
+                    colorCode = ceil(255*.5);   
+                else
+                    colorCode = ceil(255*0.9); % LOS E
                 end
-                pg = plot(polyBox,"FaceColor",[cmap(colorCode,:)],"EdgeAlpha",0.0);   
+
+                pg = plot(polyBox,"FaceColor",[cmap2(colorCode,:)],"EdgeAlpha",0.0);   
             end      
 
             % write count into all bins for debugging
@@ -72,27 +98,23 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
     %% 2. Check if the adjacent bin is significantly different from 
     % its neigbors
 
+    % must be dynamic for different pentration rates:
+    dynamicOcclusionTreshold = max(max(binmap))*(occlusionThresholdPercentage/100); % 10 percent of the max value
+    % values below this value are not realistic and count as outlier
+    outlierThreshold = max(max(binmap))*(outlierThresholdPercentage/100); 
+    validThreshold = max(max(binmap))*(validThreshold/100);
+    
+    bEnableCountInBoxes = false;
 
+    x1 = areaOfInterest(1);
+    x2 = areaOfInterest(2);
+    y1 = areaOfInterest(3);
+    y2 = areaOfInterest(4);
+    % rectangle('Position', [x1, y1, x2-x1, y2-y1], 'EdgeColor', 'k');
+    %x1 x2 y1 y2
+    areaOfInterest = areaOfInterest - [MapX(1) MapX(1) MapY(1) MapY(1)];
 
     if bEnableCheckDynOcclusionSpots
-
-
-        % must be dynamic for different pentration rates:
-        dynamicOcclusionTreshold = max(max(binmap))*(occlusionThresholdPercentage/100); % 10 percent of the max value
-        % values below this value are not realistic and count as outlier
-        outlierThreshold = max(max(binmap))*(outlierThresholdPercentage/100); 
-        validThreshold = max(max(binmap))*(validThreshold/100);
-        
-        bEnableCountInBoxes = false;
-    
-        x1 = areaOfInterest(1);
-        x2 = areaOfInterest(2);
-        y1 = areaOfInterest(3);
-        y2 = areaOfInterest(4);
-        rectangle('Position', [x1, y1, x2-x1, y2-y1], 'EdgeColor', 'k');
-        %x1 x2 y1 y2
-        areaOfInterest = areaOfInterest - [MapX(1) MapX(1) MapY(1) MapY(1)];
-
         % for xIter = 1:x_size
         %     for yIter = 1:y_size        
         for xIter = areaOfInterest(1):areaOfInterest(2)
@@ -116,14 +138,37 @@ function analyseSingleBinmap(binMapName,osmDataName,MapX,MapY,bPlotParkedVeh, ma
     end
 
 
-    font_size = 40;
+    font_size = 45;
 
     % Add labels to x and y axis
     xlabel('x position [m]', 'FontName', 'Times','FontSize',font_size)
     ylabel('y position [m]', 'FontName', 'Times','FontSize',font_size)
 
+
+
+    %% legend:
+    
+    lbl =  {'LoV A', 'LoV B', 'LoV C', 'LoV D', 'LoV E'};
+    % lbl =  {'LoV C', 'LoV D', 'LoV E'};
+    
+    
+    cmap_legend = [cmap2(ceil(255*.5),:); cmap2(ceil(255*.6),:); cmap2(ceil(255*.7),:); cmap2(ceil(255*.8),:); cmap2(ceil(255*.9),:)]
+    % cmap_legend = [cmap2(ceil(255*.7),:); cmap2(ceil(255*.8),:); cmap2(ceil(255*.9),:)]
+    
+    for ii = 1:size(cmap_legend,1)
+        p(ii) = patch(NaN, NaN, cmap_legend(ii,:));
+        p(ii).FaceAlpha = 0.5;  % make patches slightly transparent
+    end
+    
+    legend(p, lbl);
+ 
+%%
     % Set the current axes font to Times New Roman
     set(gca, 'FontName', 'Times')
     ax = gca;
     ax.FontSize = font_size;  % Font Size of 15
+
+    %%
+    % saveas(gcf,"Results/Figures/AV100LOS.png")
+
 end

@@ -55,10 +55,11 @@ outlierThresholdPercentage = 0;
 occlusionThresholdPercentage = 8;
 
 areaOfInterest = [105, 135, 100, 130]; %x1 x2 y1 y2
-
+%%
 % Create a full-screen figure 
 figure('units','normalized','outerposition',[0 0 1 1])
-analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
+% analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
+analyseSingleBinmapObservationRate(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
 
 % saveas(gcf,"Results/Figures/100res.png")
 % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')

@@ -3,8 +3,8 @@ addpath("Scripts")
 addpath("submodules/matlab-tools")
 
 bIsStaticOcculsionScenario = false;
-bVisualizeColorBar = false;
-bUseMaxBinFrom100AV = false;
+bVisualizeColorBar = true;
+bUseMaxBinFrom100AV = true;
 binMapFolder = "Results/";
 
 if bIsStaticOcculsionScenario
@@ -53,7 +53,7 @@ for dataSize=1:binMapCnt
 
 
     binMapName = fileList(dataSize).name
-    title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
+    % title("AV penetration rate "+num2str(sscanf(binMapName,'binmap_AV%d'))+"%", 'FontName', 'Times','FontSize',24)
     % load(binMapFolder+binMapName);
 
 
@@ -94,13 +94,25 @@ for dataSize=1:binMapCnt
         validThreshold, ...
         areaOfInterest);
 
+    % analyseSingleBinmapObservationRate(binMapFolder+binMapName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
+    
     if bVisualizeColorBar
-        cmap = colormap(parula);
+
+
+        cm = colormap(parula); % get the current colormap
+        bgColor = [1, 1, 1]; % assuming white background
+        
+        % Blend each color in the colormap with the background to simulate 0.5 alpha transparency
+        simulated_cm = 0.5*cm + 0.5*bgColor;
+
+        cmap = colormap(simulated_cm);
+
+        % cmap = colormap(parula);
         cbh = colorbar ; %Create Colorbar
         cbh.Ticks = linspace(0, 1, 20) ; %Create 8 ticks from zero to 1
         cbh.TickLength = 0;
         pos = cbh.Position;
-        pos(1) = .8;
+        pos(1) = 1.2;
         pos(3) = .02;
         cbh.Position = pos;
         myCellArray = cell(1, 20)';
@@ -118,7 +130,7 @@ for dataSize=1:binMapCnt
     saveas(gcf,"Results/Figures/"+binMapName+".png")
     % saveas(gcf,"Results/"+binMapName+"_01.eps",'epsc')
     % print("Results/"+binMapName+"_02.pdf", '-dpdf', '-r300');
-    print("Results/Figures/"+binMapName+".eps", '-depsc2');
+    % print("Results/Figures/"+binMapName+".eps", '-depsc2');
     % close all
 end
 

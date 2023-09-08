@@ -27,15 +27,16 @@ visualize = true;
 visualizeDebug = false;
 
 % Data Sources
-aimsunData = 'aimsunData/dynamicOcclusionScenario_ShortTest.xml';
+aimsunData = 'aimsunData/dynamicOcclusionScenario.xml';
 osmDataName = "osmData/geotheplatz.osm.mat";
 
 % Start analysis
-analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
-
+% analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
+% just looking at objects and check for traffic jams
+analyseFlows(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
 %% Run binmap evaluation
 
-BinMapFileName = "Results/binmap_AV30_FOV30.mat"
+% BinMapFileName = "Results/binmap_AV30_FOV30.mat"
 % Create a full-screen figure 
-figure('units','normalized','outerposition',[0 0 1 1])
-analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1);
+% figure('units','normalized','outerposition',[0 0 1 1])
+% analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1);

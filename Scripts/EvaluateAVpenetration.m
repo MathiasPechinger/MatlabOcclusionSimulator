@@ -1,7 +1,7 @@
 %% Usage:
 % define the penetration rate and choose the aimsun Data File you want to
 % check
-AVpentrationrate = 0.3;
+AVpentrationrate = 0.7;
 
 usePlot = false;
 
@@ -54,8 +54,8 @@ ax = gca;
 ax.FontSize = 15;  % Font Size of 15
 
 % Set x and y limits
-xlim([0, max(ts_AVPenetrationRate.Time)/60])
-ylim([28, 35])
+% xlim([0, max(ts_AVPenetrationRate.Time)/60])
+% ylim([28, 35])
 
 
 % Adjust plot appearance
@@ -109,8 +109,8 @@ ax = gca;
 ax.FontSize = 15;  % Font Size of 15
 
 % Set x and y limits
-xlim([0, max(reducedTs.Time)/60])
-ylim([28, 35])
+% xlim([0, max(reducedTs.Time)/60])
+% ylim([28, 35])
 
 
 % Adjust plot appearance
