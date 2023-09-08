@@ -80,7 +80,7 @@ The software requires the following dependencies:
 
 ## Limitations
 
-The algorithm runs quite slow. Do not expect realtime capabilities. The "ray-tracing" approach in this repository is utilized using basic mathematical equations wihtout advanced acceleration techniques. A small increase in performance was introudced using the Intersections algortihm from Douglas M. Schwarz.
+The algorithm runs quite slow. Do not expect realtime capabilities. The "ray-tracing" approach in this repository is utilized using basic mathematical equations wihtout advanced acceleration techniques. A small increase in performance was introdced using the Intersections algortihm from Douglas M. Schwarz.
 
 
 

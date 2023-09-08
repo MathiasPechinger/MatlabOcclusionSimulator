@@ -2,6 +2,12 @@
 clear
 addpath("Scripts/")
 addpath("submodules/matlab-tools/")
+addpath("osmData/")
+
+%% Note: 
+% Make sure to setup the correct falg for the dynamic and static scenario
+% respectively
+bIsStaticOcculsionScenario = false; % for parked vehicles/static scenario
 
 %% Evaluate
 
@@ -11,8 +17,6 @@ BinMapFileName = fullfile(filepath, filename);
 
 
 %% Evaluation boundaries 
-bIsStaticOcculsionScenario = false; % for parked vehicles/static scenario
-
 
 if bIsStaticOcculsionScenario
     % arcis_theresienstraße/static sceanrio
@@ -58,7 +62,8 @@ areaOfInterest = [105, 135, 100, 130]; %x1 x2 y1 y2
 %%
 % Create a full-screen figure 
 figure('units','normalized','outerposition',[0 0 1 1])
-% analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
+analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
+figure('units','normalized','outerposition',[0 0 1 1])
 analyseSingleBinmapObservationRate(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold,areaOfInterest);
 
 % saveas(gcf,"Results/Figures/100res.png")

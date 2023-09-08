@@ -97,24 +97,24 @@ function analyseSingleBinmapObservationRate(binMapName,osmDataName,MapX,MapY,bPl
 
     %% 2. Check if the adjacent bin is significantly different from 
     % its neigbors
-
-    % must be dynamic for different pentration rates:
-    dynamicOcclusionTreshold = max(max(binmap))*(occlusionThresholdPercentage/100); % 10 percent of the max value
-    % values below this value are not realistic and count as outlier
-    outlierThreshold = max(max(binmap))*(outlierThresholdPercentage/100); 
-    validThreshold = max(max(binmap))*(validThreshold/100);
-    
-    bEnableCountInBoxes = false;
-
-    x1 = areaOfInterest(1);
-    x2 = areaOfInterest(2);
-    y1 = areaOfInterest(3);
-    y2 = areaOfInterest(4);
-    % rectangle('Position', [x1, y1, x2-x1, y2-y1], 'EdgeColor', 'k');
-    %x1 x2 y1 y2
-    areaOfInterest = areaOfInterest - [MapX(1) MapX(1) MapY(1) MapY(1)];
-
     if bEnableCheckDynOcclusionSpots
+        % must be dynamic for different pentration rates:
+        dynamicOcclusionTreshold = max(max(binmap))*(occlusionThresholdPercentage/100); % 10 percent of the max value
+        % values below this value are not realistic and count as outlier
+        outlierThreshold = max(max(binmap))*(outlierThresholdPercentage/100); 
+        validThreshold = max(max(binmap))*(validThreshold/100);
+        
+        bEnableCountInBoxes = false;
+    
+        x1 = areaOfInterest(1);
+        x2 = areaOfInterest(2);
+        y1 = areaOfInterest(3);
+        y2 = areaOfInterest(4);
+        % rectangle('Position', [x1, y1, x2-x1, y2-y1], 'EdgeColor', 'k');
+        %x1 x2 y1 y2
+        areaOfInterest = areaOfInterest - [MapX(1) MapX(1) MapY(1) MapY(1)];
+
+    
         % for xIter = 1:x_size
         %     for yIter = 1:y_size        
         for xIter = areaOfInterest(1):areaOfInterest(2)

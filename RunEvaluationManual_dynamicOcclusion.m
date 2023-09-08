@@ -27,16 +27,42 @@ visualize = true;
 visualizeDebug = false;
 
 % Data Sources
-aimsunData = 'aimsunData/dynamicOcclusionScenario.xml';
+aimsunData = 'aimsunData/dynamicOcclusionScenario_ShortTest.xml';
 osmDataName = "osmData/geotheplatz.osm.mat";
 
+% -=Filter main bin=-
+% only bins that have at least 50 percent of the maximum value are valid to
+% be considered. We check the bin that is currenly in the center and being
+% checked against its adjacent bins
+validThreshold = 0;
+
+% -=Filter adjacent bin=-
+% Here we check the bin that is adjacent to the one that is being checked
+% the percentage measured to the maximum bin value to be counted as
+% occlusion. We consider an area that must have a very high visibility to
+% achieve a suitable difference. If the bin value is at least at this
+% percenatage compared to the maxium bin value we consider it.
+outlierThresholdPercentage = 0;
+
+% -= Bin difference=-
+% the difference threshold as percentage value measured to the maximum bin
+% value of the binning map. if the difference between two bins is at least
+% this percentage it is considered as occlusion spot
+% Greater value means less spots
+occlusionThresholdPercentage = 8;
+
+
 % Start analysis
-% analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
-% just looking at objects and check for traffic jams
-analyseFlows(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
+analyseData(av_percentage,FoV,visualize,aimsunData,osmDataName,MapX,MapY,bIsStaticOcculsionScenario, visualizeDebug)
+
 %% Run binmap evaluation
 
-% BinMapFileName = "Results/binmap_AV30_FOV30.mat"
+BinMapFileName = "temp/binmap_AV"+num2str(av_percentage*100)+"_FOV"+num2str(FoV)+".mat";
 % Create a full-screen figure 
-% figure('units','normalized','outerposition',[0 0 1 1])
-% analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1);
+figure('units','normalized','outerposition',[0 0 1 1])
+analyseSingleBinmap(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1);
+figure('units','normalized','outerposition',[0 0 1 1])
+analyseSingleBinmapObservationRate(BinMapFileName,osmDataName,MapX,MapY,bIsStaticOcculsionScenario,-1,occlusionThresholdPercentage, outlierThresholdPercentage,validThreshold);
+
+
+

@@ -77,8 +77,10 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
             if currentFrame.CREATED.VEH.TYPE.Text == CarTypeID
                 
                 % add AV if applicable
-                currentManualDrivenCarCnt = CarCnt-AVCnt;
-                if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
+                p = AVpercentage; % Probability of getting a 1
+                randomAssign = rand() <= p;                
+                    
+                if (randomAssign==1)
                     vehicle{CarCnt}.isAV = true;
                     AVCnt = AVCnt+1;
                 else
@@ -109,9 +111,11 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
             for carIter = 1:size(currentFrame.CREATED.VEH,2)
                 if currentFrame.CREATED.VEH{carIter}.TYPE.Text == CarTypeID
 
-                    % add AV if applicable
-                    currentManualDrivenCarCnt = CarCnt-AVCnt;
-                    if (AVCnt/currentManualDrivenCarCnt < AVpercentage)
+                     % add AV if applicable
+                    p = AVpercentage; % Probability of getting a 1
+                    randomAssign = rand() <= p;                
+                        
+                    if (randomAssign==1)
                         vehicle{CarCnt}.isAV = true;
                         AVCnt = AVCnt+1;
                     else
@@ -563,7 +567,6 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
                         result = inpolygon(boxPointX,boxPointY,vehicle{vehicleIter}.FoVHull(:,1)',vehicle{vehicleIter}.FoVHull(:,2)');
                         if result
 %                             plot(boxPointX,boxPointY)
-                            %WARNING THIS IS NOT NORMALIZED FOR FRAMES
                             frameBinmap(xIter,yIter) = 1;
                         end
                     end
@@ -587,19 +590,10 @@ for frame = 1:size(aimsunDynamicData.FRAME,2)
 
     offset = 50; %m increase area visible in simulation
     axis([MapX(1)-offset MapX(2)+offset MapY(1)-offset MapY(2)+offset])
-
-    displayText = "AV Percentage: "+AVCnt/(CarCnt-AVCnt)*100;
-    text(MapX(2)+offset+10,MapY(2)+offset,displayText)
-    displayText = "Common Vehicle Count: "+(CarCnt-AVCnt);
-    text(MapX(2)+offset+10,MapY(2)+offset-10,displayText)
-    displayText = "AV Count: "+AVCnt;
-    text(MapX(2)+offset+10,MapY(2)+offset-15,displayText)
-    displayText = "Note: Not all vehicles are inside the view area from the " + ...
-        "beginning of the simulation";
-    text(MapX(2)+offset+10,MapY(2)+offset-25,displayText)
+   
 
     % track av penetration rate
-    currentAVpercentage = (AVCnt/(CarCnt-AVCnt))*100;
+    currentAVpercentage = (AVCnt/CarCnt)*100;
     ts_AVPenetrationRate = addsample(ts_AVPenetrationRate, 'Data', currentAVpercentage, 'Time', 0.1*frame);
 
     pause(0.0001)

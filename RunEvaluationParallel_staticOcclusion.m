@@ -35,7 +35,7 @@ visualizeDebug = false;
 % Data Sources
 % aimsunData = 'aimsunData/staticOcclusionScenario_ShortTest.xml';
 aimsunData = 'aimsunData/staticOcclusionScenario.xml';
-osmDataName = "osmData/arcis_theresien_crossing.osm.mat"
+osmDataName = "osmData/arcis_theresien_crossing.osm.mat";
 
 % Start analysis
 
